@@ -16,6 +16,15 @@
     <name>iTMS JUnit Report Publisher Plugin</name>
     <description>Allow user update JUnit report to iTMS server</description>
 
+    <url>https://github.com/iTMSJenkins/iTMS-JUnit-Report-Publisher</url>
+    <developers>
+        <developer>
+            <id>developer</id>
+            <name>iTMS Developer</name>
+            <email>itms.jenkins@gmail.com</email>
+        </developer>
+    </developers>
+
     <properties>
         <jenkins.version>2.164.1</jenkins.version>
         <java.level>8</java.level>
