@@ -10,13 +10,27 @@
     </parent>
 
     <groupId>io.jenkins.plugins</groupId>
-    <artifactId>iTMS-JUnit-Report-Publisher</artifactId>
+    <artifactId>itms-junit-report-publisher</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>iTMS JUnit Report Publisher Plugin</name>
     <description>Allow user update JUnit report to iTMS server</description>
+    <url>https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin</url>
 
-    <url>https://github.com/iTMSJenkins/iTMS-JUnit-Report-Publisher</url>
+    <licenses>
+        <license>
+            <name>MIT license</name>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:ssh://github.com/iTMSJenkins/itms-junit-report-publisher-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/iTMSJenkins/itms-junit-report-publisher-plugin.git
+        </developerConnection>
+        <url>https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin</url>
+    </scm>
+
     <developers>
         <developer>
             <id>developer</id>
