@@ -1,3 +1,4 @@
+
 # iTMS JUnit Report Publisher
 
 Allow user publishes test results to iTMS for JUnit test cases.
@@ -6,84 +7,46 @@ Allow user publishes test results to iTMS for JUnit test cases.
 
 ## Adding iTMS Servers in Jenkins global settings
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+After installation configure Jenkins global settings to establish
+connection with iTMS Server(s). Follow the below steps:
 
-### Prerequisites
+-   Launch Jenkins and access via a web browser.
+-   Click on "Manage Jenkins" from the Menu as illustrated in the below
+    screenshot.
+![](docs/images/manage Jenkins.png)
 
-What things you need to install the software and how to install them
+-   Click on "Configure System".
+![](docs/images/Configure System.png)
 
-```
-Give examples
-```
+- Locate the section "iTMS JUnit Server Configuration". Then fill up infomation to establish connection to iTMS server. Note: Login iTMS to get the Token.
+- Click on "Test Configuration" to validate connection to iTMS server.
+- Click "Save" when success to connect iTMS server.
+![](docs/images/Connect iTMS.png)
 
-### Installing
+# **Configuring a Jenkins job**
+1\. Click the \<job name\> on the Jenkins home page.
+![](docs/images/Select project.png)
 
-A step by step series of examples that tell you how to get a development env running
+2\. Click on "Configure" action.
+![](docs/images/Configure project.png)
 
-Say what the step will be
+3\. Add a post-build action.
+![](docs/images/Add post build.png)
 
-```
-Give the example
-```
+4\. Select "Publish JUnit test result to iTMS"
+![](docs/images/Seclect publish junit.png)
 
-And repeat
+5\. Correct the configuration to publish junit report to iTMS server. Then click on "Test Configuration" to validate the provided information. After all, "Save" it.
+![](docs/images/Configure post build.png)
 
-```
-until finished
-```
+6\. Click on "Build now" action.
+![](docs/images/Build now.png)
 
-End with an example of getting some data out of the system or using it for a little demo
+# **License**
+Copyright (c) 2019 iTMS
 
-## Running the tests
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-Explain how to run the automated tests for this system
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
