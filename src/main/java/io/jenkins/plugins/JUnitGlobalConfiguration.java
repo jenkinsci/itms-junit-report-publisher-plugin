@@ -6,11 +6,13 @@ import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
+import hudson.util.Secret;
 import io.jenkins.plugins.model.AuthenticationInfo;
 import io.jenkins.plugins.model.ITMSConst;
 import io.jenkins.plugins.rest.RequestAPI;
 import io.jenkins.plugins.rest.StandardResponse;
 import io.jenkins.plugins.util.URLValidator;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
@@ -28,8 +30,8 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
      * to be persisted, use <tt>transient</tt>.
      */
     private String itmsServer;
-    private String username;
-    private String token;
+    private Secret username;
+    private Secret token;
     private AuthenticationInfo authenticationInfo = new AuthenticationInfo();
 
     /**
@@ -44,11 +46,12 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     @Override
     public boolean configure(StaplerRequest req, JSONObject formData)
             throws FormException {
+        req.bindJSON(this, formData);
         // To persist global configuration information, set that to
         // properties and call save().
         itmsServer = formData.getString("itmsServer");
-        username = formData.getString("username");
-        token = formData.getString("token");
+        username = Secret.fromString(formData.getString("username"));
+        token = Secret.fromString(formData.getString("token"));
 
         authenticationInfo.setUsername(username);
         authenticationInfo.setToken(token);
@@ -71,6 +74,7 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     public FormValidation doTestConnection(@QueryParameter String itmsServer, @QueryParameter String username,
                                            @QueryParameter String token) {
 
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         if (StringUtils.isBlank(itmsServer)) {
             return FormValidation.error("Please enter the iTMS server address");
         }
@@ -101,6 +105,7 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     public FormValidation doTestConfiguration(@QueryParameter String itmsAddress, @QueryParameter String reportFolder,
                                               @QueryParameter String jiraProjectKey, @QueryParameter String jiraTicketKey, @QueryParameter String itmsCycleName) {
 
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         if (StringUtils.isBlank(itmsAddress)) {
             return FormValidation.error("Please enter the iTMS server address");
         }
@@ -137,11 +142,11 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     }
 
     public String getUsername() {
-        return username;
+        return Secret.toString(username);
     }
 
     public String getToken() {
-        return token;
+        return Secret.toString(token);
     }
 
     public AuthenticationInfo getAuthenticationInfo() {
