@@ -13,34 +13,34 @@ connection with iTMS Server(s). Follow the below steps:
 -   Launch Jenkins and access via a web browser.
 -   Click on "Manage Jenkins" from the Menu as illustrated in the below
     screenshot.
-![](docs/images/manage Jenkins.png)
+![](docs/images/manage-Jenkins.png)
 
 -   Click on "Configure System".
-![](docs/images/Configure System.png)
+![](docs/images/configure-system.png)
 
 - Locate the section "iTMS JUnit Server Configuration". Then fill up infomation to establish connection to iTMS server. Note: Login iTMS to get the Token.
 - Click on "Test Configuration" to validate connection to iTMS server.
 - Click "Save" when success to connect iTMS server.
-![](docs/images/Connect iTMS.png)
+![](docs/images/connect-iTMS.png)
 
 # **Configuring a Jenkins job**
 1\. Click the \<job name\> on the Jenkins home page.
-![](docs/images/Select project.png)
+![](docs/images/select-project.png)
 
 2\. Click on "Configure" action.
-![](docs/images/Configure project.png)
+![](docs/images/configure-project.png)
 
 3\. Add a post-build action.
-![](docs/images/Add post build.png)
+![](docs/images/add-post-build.png)
 
 4\. Select "Publish JUnit test result to iTMS"
-![](docs/images/Seclect publish junit.png)
+![](docs/images/seclect-publish-junit.png)
 
 5\. Correct the configuration to publish junit report to iTMS server. Then click on "Test Configuration" to validate the provided information. After all, "Save" it.
-![](docs/images/Configure post build.png)
+![](docs/images/configure-post-build.png)
 
 6\. Click on "Build now" action.
-![](docs/images/Build now.png)
+![](docs/images/build-now.png)
 
 # **License**
 Copyright (c) 2019 iTMS
