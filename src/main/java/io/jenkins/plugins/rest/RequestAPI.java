@@ -22,6 +22,7 @@ import static io.jenkins.plugins.model.ITMSConst.*;
 public class RequestAPI {
 
     private CloseableHttpClient httpClient;
+    URLConnection connection;
 
     public RequestAPI() {
         httpClient = HttpClientBuilder.create().build();
@@ -83,6 +84,7 @@ public class RequestAPI {
             while ((line = reader.readLine()) != null)
                 sb.append(line + "\n");
             is.close();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,8 +101,6 @@ public class RequestAPI {
         String boundary = Long.toHexString(System.currentTimeMillis());
         // Line separator required by multipart/form-data.
         String CRLF = "\r\n";
-
-        URLConnection connection = null;
 
         try {
             connection = new URL(baseUrl).openConnection();
@@ -136,6 +136,9 @@ public class RequestAPI {
 
             // End of multipart/form-data.
             writer.append("--" + boundary + "--").append(CRLF).flush();
+            output.close();
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,15 +146,20 @@ public class RequestAPI {
         // Request is lazily fired whenever you need to obtain information about response.
         int responseCode = 0;
         String type = null;
-        StringBuilder message = null;
+        StringBuilder message = new StringBuilder();
         try {
-            responseCode = ((HttpURLConnection) connection).getResponseCode();
-            type = ((HttpURLConnection) connection).getResponseMessage();
-            BufferedReader br = new BufferedReader(new InputStreamReader((((HttpURLConnection) connection).getErrorStream())));
-            message = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                message.append(output);
+            if (connection != null) {
+                responseCode = ((HttpURLConnection) connection).getResponseCode();
+                type = ((HttpURLConnection) connection).getResponseMessage();
+                InputStreamReader inputStreamReader = new InputStreamReader((((HttpURLConnection) connection).getErrorStream()), StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(inputStreamReader);
+                message = new StringBuilder();
+                String output;
+                while ((output = br.readLine()) != null) {
+                    message.append(output);
+                }
+                inputStreamReader.close();
+                br.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

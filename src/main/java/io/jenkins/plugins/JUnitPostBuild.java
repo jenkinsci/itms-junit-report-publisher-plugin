@@ -1,20 +1,20 @@
 package io.jenkins.plugins;
 
+import hidden.jth.org.apache.http.HttpStatus;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
+import hudson.model.Result;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import io.jenkins.plugins.model.AuthenticationInfo;
 import io.jenkins.plugins.rest.RequestAPI;
 import io.jenkins.plugins.rest.StandardResponse;
-
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static io.jenkins.plugins.model.ITMSConst.*;
 
@@ -83,22 +83,39 @@ public class JUnitPostBuild extends Notifier {
 
 //        Cause cause = (Cause) build.getCauses().get(0);
 //        String userCause = ((Cause.UserIdCause) cause).getUserId();
-        AuthenticationInfo authenticationInfo = getDescriptor().getAuthenticationInfo();
+        if (build != null) {
+            AuthenticationInfo authenticationInfo = getDescriptor().getAuthenticationInfo();
 
-        Map<String, String> postData = new HashMap<>();
-        postData.put(USER_NAME_PARAM, authenticationInfo.getUsername());
-        postData.put(SERVICE_NAME_PARAM, SERVICE_NAME);
-        postData.put(PROJECT_NAME_PARAM, jiraProjectKey);
-        postData.put(ATTRIBUTE_BUILD_NUM_PARAM, String.valueOf(build.number));
-        postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, Objects.requireNonNull(build.getResult()).toString().toLowerCase());
-        postData.put(ATTRIBUTE_USER_PARAM, authenticationInfo.getUsername());
-        postData.put(ATTRIBUTE_REPORT_TYPE_PARAM, JUNIT_REPORT_TYPE);
-        postData.put(TICKET_KEY_PARAM, jiraTicketKey);
-        postData.put(CYCLE_NAME_PARAM, itmsCycleName);
-        postData.put(IS_JSON_PARAM, String.valueOf(false));
+            Map<String, String> postData = new HashMap<>();
+            postData.put(USER_NAME_PARAM, authenticationInfo.getUsername());
+            postData.put(SERVICE_NAME_PARAM, SERVICE_NAME);
+            postData.put(PROJECT_NAME_PARAM, jiraProjectKey);
+            postData.put(ATTRIBUTE_BUILD_NUM_PARAM, String.valueOf(build.number));
 
-        RequestAPI requestAPI = new RequestAPI();
-        return requestAPI.sendReportToITMS(itmsAddress, authenticationInfo.getToken(), postData, file, false);
+            if (build.getResult() == Result.SUCCESS) {
+                postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, "success");
+            } else if (build.getResult() == Result.FAILURE) {
+                postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, "failure");
+            } else if (build.getResult() == Result.UNSTABLE) {
+                postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, "unstable");
+            } else if (build.getResult() == Result.NOT_BUILT) {
+                postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, "not_build");
+            } else {
+                postData.put(ATTRIBUTE_BUILD_STATUS_PARAM, "aborted");
+            }
+
+            postData.put(ATTRIBUTE_USER_PARAM, authenticationInfo.getUsername());
+            postData.put(ATTRIBUTE_REPORT_TYPE_PARAM, JUNIT_REPORT_TYPE);
+            postData.put(TICKET_KEY_PARAM, jiraTicketKey);
+            postData.put(CYCLE_NAME_PARAM, itmsCycleName);
+            postData.put(IS_JSON_PARAM, String.valueOf(false));
+
+            RequestAPI requestAPI = new RequestAPI();
+            return requestAPI.sendReportToITMS(itmsAddress, authenticationInfo.getToken(), postData, file, false);
+        } else {
+            return new StandardResponse(HttpStatus.SC_BAD_REQUEST, "error", "error");
+        }
+
     }
 
     private String sendReportContent(File file, AbstractBuild build) {
