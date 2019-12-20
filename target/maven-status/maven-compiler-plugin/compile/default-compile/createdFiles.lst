@@ -1,0 +1,14 @@
+io\jenkins\plugins\model\Cycle.class
+io\jenkins\plugins\JUnitGlobalConfiguration\doTestConfiguration.stapler
+io\jenkins\plugins\model\ITMSConst.class
+io\jenkins\plugins\rest\RequestAPI.class
+io\jenkins\plugins\rest\StandardResponse.class
+io\jenkins\plugins\JUnitGlobalConfiguration.class
+io\jenkins\plugins\model\TestCycle.class
+io\jenkins\plugins\util\URLValidator.class
+META-INF\annotations\hudson.Extension.txt
+io\jenkins\plugins\JUnitGlobalConfiguration\doTestConnection.stapler
+io\jenkins\plugins\JUnitPostBuild.class
+io\jenkins\plugins\model\AuthenticationInfo.class
+META-INF\annotations\hudson.Extension
+io\jenkins\plugins\JUnitPostBuild.stapler
