@@ -2,7 +2,7 @@ package io.jenkins.plugins.model;
 
 public class ITMSConst {
 
-    public static final String PLUGIN_NAME = "iTMS Report Publisher";
+    public static final String PLUGIN_NAME = "iTMS for JIRA";
     public static final String POST_BUILD_NAME = "Publish test result to iTMS";
     public static final String SERVICE_NAME = "jenkins";
 

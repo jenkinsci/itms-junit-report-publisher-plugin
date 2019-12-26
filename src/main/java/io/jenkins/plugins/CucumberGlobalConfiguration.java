@@ -121,7 +121,7 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
         }
 
         if (StringUtils.isBlank(jiraProjectKey)) {
-            return FormValidation.error("Please enter the Jira project name!");
+            return FormValidation.error("Please enter the Jira project key!");
         }
 
         if (StringUtils.isBlank(jiraTicketKey)) {
