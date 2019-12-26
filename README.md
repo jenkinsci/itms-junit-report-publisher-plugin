@@ -2,7 +2,7 @@
 
 Allow user publishes test results to iTMS for JUnit test cases.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/infodation-vietnam-logo.jpg" width="250" height="250">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/infodation-vietnam-logo.jpg" width="250" height="250">
 
 ## Adding iTMS Servers in Jenkins global settings
 
@@ -13,51 +13,51 @@ connection with iTMS Server(s). Follow the below steps:
 -   Click on "Manage Jenkins" from the Menu as illustrated in the below
     screenshot.
     
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/manage-Jenkins.png" width="300" height="400">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/manage-Jenkins.png" width="300" height="400">
 
 
 -   Click on "Configure System".
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-system.png">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-system.png">
 
 
 - Locate the section "iTMS JUnit Server Configuration". Then fill up infomation to establish connection to iTMS server. Note: Login iTMS to get the Token.
 - Click on "Test Configuration" to validate connection to iTMS server.
 - Click "Save" when success to connect iTMS server.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/connect-iTMS.png">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/connect-iTMS.png">
 
 
 # **Configuring a Jenkins job**
 
 1\. Click the \<job name\> on the Jenkins home page.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/select-project.png">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/select-project.png">
 
 
 2\. Click on "Configure" action.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-project.png" width="300" height="450">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-project.png" width="300" height="450">
 
 
 3\. Add a post-build action.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/add-post-build.png" width="500" height="430">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/add-post-build.png" width="500" height="430">
 
 
 4\. Select "Publish JUnit test result to iTMS"
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/seclect-publish-junit.png">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/seclect-publish-junit.png">
 
 
 5\. Correct the configuration to publish junit report to iTMS server. Then click on "Test Configuration" to validate the provided information. After all, "Save" it.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-post-build.png">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/configure-post-build.png">
 
 
 6\. Click on "Build now" action.
 
-<img src="https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin/blob/master/docs/images/build-now.png" width="300" height="450">
+<img src="https://github.com/jenkinsci/itms-junit-report-publisher-plugin/blob/master/docs/images/build-now.png" width="300" height="450">
 
 
 # **License**
