@@ -6,9 +6,9 @@ import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 import hudson.util.Secret;
 import io.jenkins.plugins.model.AuthenticationInfo;
-import io.jenkins.plugins.model.ITMSConst;
 import io.jenkins.plugins.rest.RequestAPI;
 import io.jenkins.plugins.rest.StandardResponse;
 import io.jenkins.plugins.util.URLValidator;
@@ -21,14 +21,12 @@ import org.kohsuke.stapler.verb.POST;
 
 import javax.annotation.Nonnull;
 
+import static io.jenkins.plugins.model.ITMSConst.*;
+
 
 @Extension
-public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publisher> {
+public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publisher> {
 
-    /**
-     * Global configuration information variables. If you don't want fields
-     * to be persisted, use <tt>transient</tt>.
-     */
     private String itmsServer;
     private Secret username;
     private Secret token;
@@ -38,8 +36,8 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
      * In order to load the persisted global configuration, you have to call
      * load() in the constructor.
      */
-    public JUnitGlobalConfiguration() {
-        super(JUnitPostBuild.class);
+    public CucumberGlobalConfiguration() {
+        super(CucumberPostBuild.class);
         load();
     }
 
@@ -67,7 +65,7 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     @Nonnull
     @Override
     public String getDisplayName() {
-        return ITMSConst.POST_BUILD_NAME;
+        return POST_BUILD_NAME;
     }
 
     @POST
@@ -123,7 +121,7 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
         }
 
         if (StringUtils.isBlank(jiraProjectKey)) {
-            return FormValidation.error("Please enter the Jira project key!");
+            return FormValidation.error("Please enter the Jira project name!");
         }
 
         if (StringUtils.isBlank(jiraTicketKey)) {
@@ -135,6 +133,14 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
         }
 
         return FormValidation.ok("Configuration is valid!");
+    }
+
+    public ListBoxModel doFillReportFormatItems(@QueryParameter String reportFormat) {
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        ListBoxModel m = new ListBoxModel();
+        m.add(JSON_FORMAT);
+        m.add(XML_FORMAT);
+        return m;
     }
 
     public String getItmsServer() {
@@ -152,5 +158,6 @@ public final class JUnitGlobalConfiguration extends BuildStepDescriptor<Publishe
     public AuthenticationInfo getAuthenticationInfo() {
         return authenticationInfo;
     }
+
 
 }

@@ -9,9 +9,7 @@ import hidden.jth.org.apache.http.impl.client.HttpClientBuilder;
 import net.sf.json.JSONObject;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
@@ -126,7 +124,7 @@ public class RequestAPI {
             writer.append("--").append(boundary).append(CRLF);
             writer.append("Content-Disposition: form-data; name=\"report_content\"; filename=\"").append(file.getName()).append("\"").append(CRLF);
             // Text file itself must be saved in this charset!
-            writer.append(isJsonReport ? APPLICATION_JSON_TYPE : APPLICATION_XML_TYPE + StandardCharsets.UTF_8).append(CRLF);
+            writer.append(isJsonReport? APPLICATION_JSON_TYPE : APPLICATION_XML_TYPE + StandardCharsets.UTF_8).append(CRLF);
             writer.append(CRLF).flush();
             Files.copy(file.toPath(), output);
             // Important before continuing with writer!
@@ -155,7 +153,6 @@ public class RequestAPI {
                 while ((output = br.readLine()) != null) {
                     message.append(output);
                 }
-                inputStreamReader.close();
                 br.close();
             }
         } catch (IOException e) {

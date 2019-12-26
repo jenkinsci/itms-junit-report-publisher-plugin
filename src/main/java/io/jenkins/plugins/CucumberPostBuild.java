@@ -12,26 +12,29 @@ import io.jenkins.plugins.rest.RequestAPI;
 import io.jenkins.plugins.rest.StandardResponse;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.io.File;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.jenkins.plugins.model.ITMSConst.*;
 
 
-public class JUnitPostBuild extends Notifier {
+public class CucumberPostBuild extends Notifier {
 
     private final String itmsAddress;
     private final String reportFolder;
+    private final String reportFormat;
     private final String jiraProjectKey;
     private final String jiraTicketKey;
     private final String itmsCycleName;
 
     @DataBoundConstructor
-    public JUnitPostBuild(final String itmsAddress, final String reportFolder,
-                          final String jiraProjectKey, final String jiraTicketKey, final String itmsCycleName) {
+    public CucumberPostBuild(final String itmsAddress, final String reportFolder,
+                             final String reportFormat, final String jiraProjectKey,
+                             final String jiraTicketKey, final String itmsCycleName) {
         this.itmsAddress = itmsAddress.trim();
         this.reportFolder = reportFolder.trim();
+        this.reportFormat = reportFormat.trim();
         this.jiraProjectKey = jiraProjectKey.trim();
         this.jiraTicketKey = jiraTicketKey.trim();
         this.itmsCycleName = itmsCycleName.trim();
@@ -48,7 +51,11 @@ public class JUnitPostBuild extends Notifier {
             File[] listOfFiles = folder.listFiles();
             if (listOfFiles != null) {
                 for (File file : listOfFiles) {
-                    if (file.getName().toLowerCase().endsWith(".xml")) {
+                    if (reportFormat.equals(JSON_FORMAT) && file.getName().toLowerCase().endsWith(".json")) {
+                        counter++;
+                        listener.getLogger().println("Read report file: " + file.getName());
+                        listener.getLogger().println(sendReportContent(file, build));
+                    } else if (reportFormat.equals(XML_FORMAT) && file.getName().toLowerCase().endsWith(".xml")) {
                         counter++;
                         listener.getLogger().println("Read report file: " + file.getName());
                         listener.getLogger().println(sendReportContent(file, build));
@@ -58,6 +65,7 @@ public class JUnitPostBuild extends Notifier {
                 if (counter < 1) {
                     listener.getLogger().println("Report file not found! Check your report folder and format type");
                 }
+
             } else {
                 listener.getLogger().println("Folder is empty!");
             }
@@ -74,17 +82,16 @@ public class JUnitPostBuild extends Notifier {
     }
 
     @Override
-    public JUnitGlobalConfiguration getDescriptor() {
-        return (JUnitGlobalConfiguration) super.getDescriptor();
+    public CucumberGlobalConfiguration getDescriptor() {
+        return (CucumberGlobalConfiguration) super.getDescriptor();
     }
 
 
     private StandardResponse prepareRequestContent(File file, AbstractBuild build) {
 
-//        Cause cause = (Cause) build.getCauses().get(0);
-//        String userCause = ((Cause.UserIdCause) cause).getUserId();
         if (build != null) {
             AuthenticationInfo authenticationInfo = getDescriptor().getAuthenticationInfo();
+            boolean isJsonReport = reportFormat.equals(JSON_FORMAT) ? Boolean.TRUE : Boolean.FALSE;
 
             Map<String, String> postData = new HashMap<>();
             postData.put(USER_NAME_PARAM, authenticationInfo.getUsername());
@@ -105,13 +112,13 @@ public class JUnitPostBuild extends Notifier {
             }
 
             postData.put(ATTRIBUTE_USER_PARAM, authenticationInfo.getUsername());
-            postData.put(ATTRIBUTE_REPORT_TYPE_PARAM, JUNIT_REPORT_TYPE);
+            postData.put(ATTRIBUTE_REPORT_TYPE_PARAM, reportFormat);
             postData.put(TICKET_KEY_PARAM, jiraTicketKey);
             postData.put(CYCLE_NAME_PARAM, itmsCycleName);
-            postData.put(IS_JSON_PARAM, String.valueOf(false));
+            postData.put(IS_JSON_PARAM, String.valueOf(isJsonReport));
 
             RequestAPI requestAPI = new RequestAPI();
-            return requestAPI.sendReportToITMS(itmsAddress, authenticationInfo.getToken(), postData, file, false);
+            return requestAPI.sendReportToITMS(itmsAddress, authenticationInfo.getToken(), postData, file, isJsonReport);
         } else {
             return new StandardResponse(HttpStatus.SC_BAD_REQUEST, "error", "error");
         }
@@ -121,7 +128,7 @@ public class JUnitPostBuild extends Notifier {
     private String sendReportContent(File file, AbstractBuild build) {
         if (file.length() > 0) {
             StandardResponse response = prepareRequestContent(file, build);
-            return PLUGIN_NAME + " response: " + response.getMessage();
+            return PLUGIN_NAME+ " response: " + response.getMessage();
         }
         return file.getName() + " is empty!";
     }
@@ -132,6 +139,10 @@ public class JUnitPostBuild extends Notifier {
 
     public String getReportFolder() {
         return reportFolder;
+    }
+
+    public String getReportFormat() {
+        return reportFormat;
     }
 
     public String getJiraTicketKey() {
