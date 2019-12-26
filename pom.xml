@@ -15,7 +15,7 @@
     <packaging>hpi</packaging>
     <name>iTMS for JIRA Plugin</name>
     <description>Allow user updates Cucumber and JUnit report to iTMS server</description>
-    <url>https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin</url>
+    <url>https://github.com/jenkinsci/itms-for-jira-plugin</url>
 
     <licenses>
         <license>
@@ -25,10 +25,10 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:ssh://github.com/iTMSJenkins/itms-junit-report-publisher-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/iTMSJenkins/itms-junit-report-publisher-plugin.git
+        <connection>scm:git:ssh://github.com/jenkinsci/itms-for-jira-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/itms-for-jira-plugin.git
         </developerConnection>
-        <url>https://github.com/iTMSJenkins/itms-junit-report-publisher-plugin</url>
+        <url>https://github.com/jenkinsci/itms-for-jira-plugin</url>
     </scm>
 
     <developers>
