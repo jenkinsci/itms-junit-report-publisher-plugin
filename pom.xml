@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>io.jenkins.plugins</groupId>
-    <artifactId>itms-for-jira</artifactId>
+    <artifactId>itms-junit-report-publisher</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>iTMS for JIRA Plugin</name>
