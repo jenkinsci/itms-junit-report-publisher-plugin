@@ -10,7 +10,7 @@
 
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>itms-junit-report-publisher</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
     <packaging>hpi</packaging>
     <name>iTMS for JIRA Plugin</name>
     <description>Allow user updates Cucumber and JUnit report to iTMS server</description>
@@ -28,7 +28,7 @@
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/itms-for-jira-plugin.git
         </developerConnection>
         <url>https://github.com/jenkinsci/itms-for-jira-plugin</url>
-      <tag>HEAD</tag>
+      <tag>itms-junit-report-publisher-1.3</tag>
   </scm>
 
     <developers>
