@@ -1,0 +1,61 @@
+Running tests for io.jenkins.plugins:itms-for-jira:1.5-SNAPSHOT
+Mar 24, 2020 3:58:24 PM org.eclipse.jetty.util.log.Log initialized
+INFO: Logging initialized @774ms to org.eclipse.jetty.util.log.Slf4jLog
+Mar 24, 2020 3:58:26 PM org.jvnet.hudson.test.WarExploder explode
+INFO: Exploding /Users/vutran/.m2/repository/org/jenkins-ci/main/jenkins-war/2.162/jenkins-war-2.162.war into /Users/vutran/infodation/itms/itms-for-jira-plugin/target/jenkins-for-test
+Mar 24, 2020 3:58:29 PM org.eclipse.jetty.server.handler.ContextHandler setContextPath
+WARNING: Empty contextPath
+Mar 24, 2020 3:58:29 PM org.eclipse.jetty.server.Server doStart
+INFO: jetty-9.4.5.v20170502
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.webapp.StandardDescriptorProcessor visitServlet
+INFO: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: DefaultSessionIdManager workerName=node0
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: No SessionScavenger set, using defaults
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
+INFO: Scavenging every 660000ms
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.w.WebAppContext@4a891c97{/,file:///Users/vutran/infodation/itms/itms-for-jira-plugin/target/jenkins-for-test/,AVAILABLE}{/Users/vutran/infodation/itms/itms-for-jira-plugin/target/jenkins-for-test}
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@42e3ede4{HTTP/1.1,[http/1.1]}{localhost:61247}
+Mar 24, 2020 3:58:30 PM org.eclipse.jetty.server.Server doStart
+INFO: Started @6311ms
+Mar 24, 2020 3:58:31 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started initialization
+Mar 24, 2020 3:58:32 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Listed all plugins
+Mar 24, 2020 3:58:35 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Prepared all plugins
+Mar 24, 2020 3:58:35 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started all plugins
+Mar 24, 2020 3:58:35 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Augmented all extensions
+Mar 24, 2020 3:58:37 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Loaded all jobs
+Mar 24, 2020 3:58:38 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Completed initialization
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.Server doStart
+INFO: jetty-9.4.5.v20170502
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: DefaultSessionIdManager workerName=node0
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: No SessionScavenger set, using defaults
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.session.HouseKeeper startScavenging
+INFO: Scavenging every 660000ms
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.s.ServletContextHandler@5ebd56e9{/,null,AVAILABLE}
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@1802e421{HTTP/1.1,[http/1.1]}{0.0.0.0:61249}
+Mar 24, 2020 3:58:38 PM org.eclipse.jetty.server.Server doStart
+INFO: Started @14356ms
+Mar 24, 2020 3:58:43 PM org.eclipse.jetty.server.AbstractConnector doStop
+INFO: Stopped ServerConnector@42e3ede4{HTTP/1.1,[http/1.1]}{localhost:0}
+Mar 24, 2020 3:58:43 PM org.eclipse.jetty.server.session.HouseKeeper stopScavenging
+INFO: Stopped scavenging
+Mar 24, 2020 3:58:43 PM org.eclipse.jetty.server.handler.ContextHandler doStop
+INFO: Stopped o.e.j.w.WebAppContext@4a891c97{/,file:///Users/vutran/infodation/itms/itms-for-jira-plugin/target/jenkins-for-test/,UNAVAILABLE}{/Users/vutran/infodation/itms/itms-for-jira-plugin/target/jenkins-for-test}
+Mar 24, 2020 3:58:43 PM jenkins.model.Jenkins cleanUp
+INFO: Stopping Jenkins
+Mar 24, 2020 3:58:43 PM jenkins.model.Jenkins cleanUp
+INFO: Jenkins stopped
