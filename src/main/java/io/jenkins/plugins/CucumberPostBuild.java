@@ -1,6 +1,7 @@
 package io.jenkins.plugins;
 
 import hidden.jth.org.apache.http.HttpStatus;
+import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -45,8 +46,14 @@ public class CucumberPostBuild extends Notifier {
         int counter = 0;
         try {
             listener.getLogger().println("Starting " + PLUGIN_NAME + " post build action..");
+            
+            FilePath workspace = build.getWorkspace();
+            if (workspace == null) {
+            	listener.getLogger().println("The provided build has no workspace");
+            	throw new IllegalArgumentException("The provided build has no workspace");
+            }
 
-            File folder = new File(build.getWorkspace() + reportFolder);
+            File folder = new File(build.getWorkspace().getRemote() + "\\" + reportFolder);
             listener.getLogger().println("Report folder: " + folder.getPath());
             File[] listOfFiles = folder.listFiles();
             if (listOfFiles != null) {
