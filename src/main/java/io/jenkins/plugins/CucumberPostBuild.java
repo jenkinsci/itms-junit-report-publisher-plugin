@@ -53,7 +53,7 @@ public class CucumberPostBuild extends Notifier {
             	throw new IllegalArgumentException("The provided build has no workspace");
             }
 
-            File folder = new File(build.getWorkspace().getRemote() + "\\" + reportFolder);
+            File folder = new File(workspace.getRemote() + "\\" + reportFolder);
             listener.getLogger().println("Report folder: " + folder.getPath());
             File[] listOfFiles = folder.listFiles();
             if (listOfFiles != null) {
