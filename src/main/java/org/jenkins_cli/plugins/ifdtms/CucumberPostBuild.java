@@ -1,4 +1,4 @@
-package io.jenkins.plugins;
+package org.jenkins_cli.plugins.ifdtms;
 
 import hidden.jth.org.apache.http.HttpStatus;
 import hudson.FilePath;
@@ -6,28 +6,29 @@ import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Result;
+import hudson.remoting.VirtualChannel;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
-import io.jenkins.plugins.model.AuthenticationInfo;
-import io.jenkins.plugins.rest.RequestAPI;
-import io.jenkins.plugins.rest.StandardResponse;
+import org.jenkins_cli.plugins.ifdtms.model.AuthenticationInfo;
+import org.jenkins_cli.plugins.ifdtms.rest.RequestApi;
+import org.jenkins_cli.plugins.ifdtms.rest.StandardResponse;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.jenkins.plugins.model.ITMSConst.*;
+import static org.jenkins_cli.plugins.ifdtms.model.ItmsConst.*;
 
 
 public class CucumberPostBuild extends Notifier {
 
-    private final String itmsAddress;
-    private final String reportFolder;
-    private final String reportFormat;
-    private final String jiraProjectKey;
-    private final String jiraTicketKey;
-    private final String itmsCycleName;
+    private String itmsAddress;
+    private String reportFolder;
+    private String reportFormat;
+    private String jiraProjectKey;
+    private String jiraTicketKey;
+    private String itmsCycleName;
 
     @DataBoundConstructor
     public CucumberPostBuild(final String itmsAddress, final String reportFolder,
@@ -43,43 +44,47 @@ public class CucumberPostBuild extends Notifier {
 
     @Override
     public boolean perform(final AbstractBuild build, final Launcher launcher, final BuildListener listener) {
-        int counter = 0;
         try {
             listener.getLogger().println("Starting " + PLUGIN_NAME + " post build action..");
             
             FilePath workspace = build.getWorkspace();
             if (workspace == null) {
             	listener.getLogger().println("The provided build has no workspace");
-            	throw new IllegalArgumentException("The provided build has no workspace");
+            	return false;
             }
-
-            File folder = new File(workspace.getRemote() + "\\" + reportFolder);
-            listener.getLogger().println("Report folder: " + folder.getPath());
-            File[] listOfFiles = folder.listFiles();
-            if (listOfFiles != null) {
-                for (File file : listOfFiles) {
-                    if (reportFormat.equals(JSON_FORMAT) && file.getName().toLowerCase().endsWith(".json")) {
-                        counter++;
-                        listener.getLogger().println("Read report file: " + file.getName());
-                        listener.getLogger().println(sendReportContent(file, build));
-                    } else if (reportFormat.equals(XML_FORMAT) && file.getName().toLowerCase().endsWith(".xml")) {
-                        counter++;
-                        listener.getLogger().println("Read report file: " + file.getName());
-                        listener.getLogger().println(sendReportContent(file, build));
-                    }
-                }
-
-                if (counter < 1) {
-                    listener.getLogger().println("Report file not found! Check your report folder and format type");
-                }
-
-            } else {
-                listener.getLogger().println("Folder is empty!");
+            
+            FilePath hudsonFile;
+            if(workspace.isRemote()) {
+                VirtualChannel vc = workspace.getChannel();
+                String fp = workspace.getRemote() + reportFolder;
+                hudsonFile = new FilePath(vc,fp);
             }
-
-        } catch (Exception e) {
+            else {
+            	File local = new File(workspace.getRemote() + reportFolder);
+                hudsonFile = new FilePath(local);
+            }
+            
+            String fileSuffix = reportFormat.equals(JSON_FORMAT) ? ".json" : ".xml";
+            FilePath[] reportFiles = hudsonFile.list("**/*" + fileSuffix);
+            
+            int counter = 0;
+            for(FilePath filePath : reportFiles) {
+            	counter++;
+                listener.getLogger().println("Read report file: " + filePath.getName());
+                String content = filePath.readToString();
+                listener.getLogger().println("---------Start sending report content-------");
+                listener.getLogger().println(sendReportContent(filePath, build));
+                listener.getLogger().println("---------End--------");
+                
+            }
+            if (counter == 0) {
+                listener.getLogger().println("Report file not found! Check your report folder and format type");
+            }
+        }
+        catch (Exception e) {
             listener.getLogger().printf("Error Occurred : %s ", e);
         }
+        
         listener.getLogger().println("Finished " + PLUGIN_NAME + " post build action");
         return true;
     }
@@ -94,7 +99,7 @@ public class CucumberPostBuild extends Notifier {
     }
 
 
-    private StandardResponse prepareRequestContent(File file, AbstractBuild build) {
+    private StandardResponse prepareRequestContent(String fileName, String reportContent, AbstractBuild build) {
 
         if (build != null) {
             AuthenticationInfo authenticationInfo = getDescriptor().getAuthenticationInfo();
@@ -124,44 +129,21 @@ public class CucumberPostBuild extends Notifier {
             postData.put(CYCLE_NAME_PARAM, itmsCycleName);
             postData.put(IS_JSON_PARAM, String.valueOf(isJsonReport));
 
-            RequestAPI requestAPI = new RequestAPI();
-            return requestAPI.sendReportToITMS(itmsAddress, authenticationInfo.getToken(), postData, file, isJsonReport);
+            RequestApi requestApi = new RequestApi();
+            return requestApi.sendReportToITMS(itmsAddress, authenticationInfo.getToken(),
+            		postData, fileName, reportContent, isJsonReport);
         } else {
             return new StandardResponse(HttpStatus.SC_BAD_REQUEST, "error", "error");
         }
 
     }
 
-    private String sendReportContent(File file, AbstractBuild build) {
-        if (file.length() > 0) {
-            StandardResponse response = prepareRequestContent(file, build);
+    private String sendReportContent(FilePath filePath, AbstractBuild build) throws IOException, InterruptedException {
+        String reportContent = filePath.readToString().trim();
+    	if (reportContent != null && !reportContent.isEmpty()) {
+            StandardResponse response = prepareRequestContent(filePath.getName(), reportContent, build);
             return PLUGIN_NAME+ " response: " + response.getMessage();
         }
-        return file.getName() + " is empty!";
+        return filePath.getName() + " is empty!";
     }
-
-    public String getItmsAddress() {
-        return itmsAddress;
-    }
-
-    public String getReportFolder() {
-        return reportFolder;
-    }
-
-    public String getReportFormat() {
-        return reportFormat;
-    }
-
-    public String getJiraTicketKey() {
-        return jiraTicketKey;
-    }
-
-    public String getItmsCycleName() {
-        return itmsCycleName;
-    }
-
-    public String getJiraProjectKey() {
-        return jiraProjectKey;
-    }
-
 }

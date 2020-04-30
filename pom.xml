@@ -1,49 +1,58 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.43</version>
-        <relativePath />
-    </parent>
-    <artifactId>itms-for-jira</artifactId>
-    <version>${revision}${changelist}</version>
-    <packaging>hpi</packaging>
-    <name>iTMS for JIRA Plugin</name>
-    <description>Allow user updates Cucumber and JUnit report to iTMS server</description>
-    <url>https://github.com/jenkinsci/itms-for-jira-plugin</url>
-    <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jenkins-ci.plugins</groupId>
+		<artifactId>plugin</artifactId>
+		<version>3.43</version>
+		<relativePath />
+	</parent>
+
+	<groupId>org.jenkins-cli.plugins</groupId>
+	<artifactId>ifdtms-jenkins</artifactId>
+	<version>${revision}${changelist}</version>
+	<packaging>hpi</packaging>
+	<name>iTMS for JIRA Plugin</name>
+	<description>Allow user updates Cucumber and JUnit report to iTMS server</description>
+	<properties>
         <revision>1.29</revision>
         <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.138.4</jenkins.version>
         <java.level>8</java.level>
         <no-test-jar>false</no-test-jar>
+        <workflow-cps.version>2.66</workflow-cps.version>
+        <workflow-support.version>3.2</workflow-support.version>
     </properties>
-    <licenses>
-        <license>
-            <name>MIT</name>
-            <url>http://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-      <tag>${scmTag}</tag>
-    </scm>
-    <repositories>
-        <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-    <developers>
+	<licenses>
+		<license>
+			<name>MIT</name>
+			<url>http://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+		<tag>${scmTag}</tag>
+	</scm>
+	<!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
+		artifacts that we need -->
+	<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<developers>
         <developer>
             <id>developer</id>
             <name>iTMS Developer</name>

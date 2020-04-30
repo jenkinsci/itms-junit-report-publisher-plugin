@@ -1,8 +1,8 @@
-package io.jenkins.plugins.model;
+package org.jenkins_cli.plugins.ifdtms.model;
 
-public class ITMSConst {
+public class ItmsConst {
 
-    public static final String PLUGIN_NAME = "iTMS for JIRA";
+    public static final String PLUGIN_NAME = "iTMS for Jenkins";
     public static final String POST_BUILD_NAME = "Publish test result to iTMS";
     public static final String SERVICE_NAME = "jenkins";
 
