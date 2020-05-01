@@ -1,4 +1,4 @@
-package io.jenkins.plugins;
+package org.jenkins_cli.plugins.ifdtms;
 
 import hidden.jth.org.apache.http.HttpStatus;
 import hudson.Extension;
@@ -8,11 +8,12 @@ import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Secret;
-import io.jenkins.plugins.model.AuthenticationInfo;
-import io.jenkins.plugins.rest.RequestAPI;
-import io.jenkins.plugins.rest.StandardResponse;
-import io.jenkins.plugins.util.URLValidator;
 import jenkins.model.Jenkins;
+
+import org.jenkins_cli.plugins.ifdtms.model.AuthenticationInfo;
+import org.jenkins_cli.plugins.ifdtms.rest.RequestApi;
+import org.jenkins_cli.plugins.ifdtms.rest.StandardResponse;
+import org.jenkins_cli.plugins.ifdtms.util.UrlValidator;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
@@ -21,7 +22,7 @@ import org.kohsuke.stapler.verb.POST;
 
 import javax.annotation.Nonnull;
 
-import static io.jenkins.plugins.model.ITMSConst.*;
+import static org.jenkins_cli.plugins.ifdtms.model.ItmsConst.*;
 
 
 @Extension
@@ -89,7 +90,7 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
         postData.put("username", username);
         postData.put("service_name", "jenkins");
 
-        RequestAPI request = new RequestAPI();
+        RequestApi request = new RequestApi();
         StandardResponse response = request.sendAuthRequest(itmsServer, token, postData);
 
         if (response.getCode() != HttpStatus.SC_OK) {
@@ -108,7 +109,7 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
             return FormValidation.error("Please enter the iTMS server address");
         }
 
-        if (!URLValidator.isValidUrl(itmsAddress)) {
+        if (!UrlValidator.isValidUrl(itmsAddress)) {
             return FormValidation.error("This value is not a valid url!");
         }
 
@@ -158,6 +159,4 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
     public AuthenticationInfo getAuthenticationInfo() {
         return authenticationInfo;
     }
-
-
 }

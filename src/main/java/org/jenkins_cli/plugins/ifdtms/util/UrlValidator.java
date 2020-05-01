@@ -1,10 +1,10 @@
-package io.jenkins.plugins.util;
+package org.jenkins_cli.plugins.ifdtms.util;
 
 import java.net.URL;
 import java.net.URLConnection;
 
 
-public class URLValidator {
+public class UrlValidator {
 
     public static boolean isValidUrl(String string) {
 
