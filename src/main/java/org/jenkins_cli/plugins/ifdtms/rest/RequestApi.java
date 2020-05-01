@@ -1,4 +1,4 @@
-package io.jenkins.plugins.rest;
+package org.jenkins_cli.plugins.ifdtms.rest;
 
 import hidden.jth.org.apache.http.HttpEntity;
 import hidden.jth.org.apache.http.HttpResponse;
@@ -12,20 +12,19 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
 
-import static io.jenkins.plugins.model.ITMSConst.*;
-import static io.jenkins.plugins.model.ITMSConst.APPLICATION_XML_TYPE;
+import static org.jenkins_cli.plugins.ifdtms.model.ItmsConst.*;
 
-
-public class RequestAPI {
+public class RequestApi {
 
     private CloseableHttpClient httpClient;
     URLConnection connection;
 
-    public RequestAPI() {
+    public RequestApi() {
         httpClient = HttpClientBuilder.create().build();
     }
 
@@ -96,7 +95,7 @@ public class RequestAPI {
     }
 
     public StandardResponse sendReportToITMS(String baseUrl, String token, Map<String, String> postData,
-                                             File file, boolean isJsonReport) {
+                                             String fileName, String reportContent, boolean isJsonReport) {
         // Just generate some unique random value.
         String boundary = Long.toHexString(System.currentTimeMillis());
         // Line separator required by multipart/form-data.
@@ -124,11 +123,13 @@ public class RequestAPI {
 
             // Send file.
             writer.append("--").append(boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"report_content\"; filename=\"").append(file.getName()).append("\"").append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"report_content\"; filename=\"").append(fileName).append("\"").append(CRLF);
             // Text file itself must be saved in this charset!
             writer.append(isJsonReport ? APPLICATION_JSON_TYPE : APPLICATION_XML_TYPE + StandardCharsets.UTF_8).append(CRLF);
             writer.append(CRLF).flush();
-            Files.copy(file.toPath(), output);
+            
+            output.write(reportContent.getBytes("UTF-8"));
+            
             // Important before continuing with writer!
             output.flush();
             // CRLF is important! It indicates end of boundary.

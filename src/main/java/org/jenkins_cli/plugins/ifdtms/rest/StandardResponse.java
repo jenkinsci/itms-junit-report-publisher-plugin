@@ -1,4 +1,4 @@
-package io.jenkins.plugins.rest;
+package org.jenkins_cli.plugins.ifdtms.rest;
 
 public class StandardResponse {
 

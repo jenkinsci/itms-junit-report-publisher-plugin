@@ -1,4 +1,4 @@
-package io.jenkins.plugins.model;
+package org.jenkins_cli.plugins.ifdtms.model;
 
 import java.util.List;
 
