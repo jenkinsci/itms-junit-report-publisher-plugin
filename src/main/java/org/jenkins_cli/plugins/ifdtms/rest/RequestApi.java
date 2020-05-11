@@ -37,7 +37,7 @@ public class RequestApi {
         return createPOSTRequest(request);
     }
 
-    public StandardResponse sendReportContent(String baseUrl, String token, JSONObject postData) {
+    public StandardResponse sendPostRequestToItms(String baseUrl, String token, JSONObject postData) {
         HttpPost request = new HttpPost(baseUrl);
         request.addHeader("content-type", "application/json");
         request.addHeader("Authorization", token);
