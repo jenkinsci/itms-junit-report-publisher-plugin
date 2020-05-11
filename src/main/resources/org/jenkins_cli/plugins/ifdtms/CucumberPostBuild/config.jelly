@@ -24,6 +24,12 @@
     <f:entry title="iTMS cycle name" field="itmsCycleName">
         <f:textbox />
     </f:entry>
+    
+    <f:entry>
+        <f:validateButton title="Check JIRA variables exist&#160;"
+                          progress="Please wait .. We are sending your JIRA variables to ITMS"
+                          method="checkJiraConfiguration" with="itmsAddress,jiraProjectKey,jiraTicketKey,itmsCycleName"/>
+    </f:entry>
 
     <f:entry>
         <f:validateButton title="Test Configuration&#160;"

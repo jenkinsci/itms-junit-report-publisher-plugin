@@ -48,9 +48,9 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
         req.bindJSON(this, formData);
         // To persist global configuration information, set that to
         // properties and call save().
-        itmsServer = formData.getString("itmsServer");
-        username = Secret.fromString(formData.getString("username"));
-        token = Secret.fromString(formData.getString("token"));
+        itmsServer = formData.getString(ITMS_SERVER_PARAM);
+        username = Secret.fromString(formData.getString(USER_NAME_PARAM));
+        token = Secret.fromString(formData.getString(TOKEN_PARAM));
 
         authenticationInfo.setUsername(username);
         authenticationInfo.setToken(token);
@@ -87,8 +87,8 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
         }
 
         JSONObject postData = new JSONObject();
-        postData.put("username", username);
-        postData.put("service_name", "jenkins");
+        postData.put(USER_NAME_PARAM, username);
+        postData.put(SERVICE_NAME_PARAM, SERVICE_NAME);
 
         RequestApi request = new RequestApi();
         StandardResponse response = request.sendAuthRequest(itmsServer, token, postData);
@@ -97,7 +97,7 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
             return FormValidation.error(response.getMessage());
         }
 
-        return FormValidation.ok("Connection to iTMS has been validated");
+        return FormValidation.ok(response.getMessage());
     }
 
     @POST
@@ -134,6 +134,52 @@ public final class CucumberGlobalConfiguration extends BuildStepDescriptor<Publi
         }
 
         return FormValidation.ok("Configuration is valid!");
+    }
+    
+    @POST
+    public FormValidation doCheckJiraConfiguration(@QueryParameter String itmsAddress,
+    		@QueryParameter String jiraProjectKey, @QueryParameter String jiraTicketKey,
+    		@QueryParameter String itmsCycleName) {
+
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        if (StringUtils.isBlank(itmsAddress)) {
+            return FormValidation.error("Please enter the iTMS server address");
+        }
+
+        if (!UrlValidator.isValidUrl(itmsAddress)) {
+            return FormValidation.error("This value is not a valid url!");
+        }
+
+        if (StringUtils.isBlank(jiraProjectKey)) {
+            return FormValidation.error("Please enter the Jira project key!");
+        }
+
+        if (StringUtils.isBlank(jiraTicketKey)) {
+            return FormValidation.error("Please enter the Jira ticket key!");
+        }
+
+        if (StringUtils.isBlank(itmsCycleName)) {
+            return FormValidation.error("Please enter the iTMS cycle name!");
+        }
+
+        JSONObject postData = new JSONObject();
+        postData.put(USER_NAME_PARAM, authenticationInfo.getUsername());
+        postData.put(SERVICE_NAME_PARAM, SERVICE_NAME);
+        postData.put(PROJECT_NAME_PARAM, jiraProjectKey);
+        postData.put(TICKET_KEY_PARAM, jiraTicketKey);
+        postData.put(CYCLE_NAME_PARAM, itmsCycleName);
+        
+        String itmsCheckUrl = itmsAddress.substring(0, itmsAddress.lastIndexOf("/"));
+        itmsCheckUrl += "/validate_jenkins_job_configuration";
+
+        RequestApi request = new RequestApi();
+        StandardResponse response = request.sendPostRequestToItms(itmsCheckUrl, authenticationInfo.getToken(), postData);
+
+        if (response.getCode() != HttpStatus.SC_OK) {
+            return FormValidation.error(response.getMessage());
+        }
+
+        return FormValidation.ok(response.getMessage());
     }
 
     public ListBoxModel doFillReportFormatItems(@QueryParameter String reportFormat) {

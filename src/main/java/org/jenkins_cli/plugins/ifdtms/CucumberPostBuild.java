@@ -20,15 +20,14 @@ import java.util.Map;
 
 import static org.jenkins_cli.plugins.ifdtms.model.ItmsConst.*;
 
-
 public class CucumberPostBuild extends Notifier {
 
-    private String itmsAddress;
-    private String reportFolder;
-    private String reportFormat;
-    private String jiraProjectKey;
-    private String jiraTicketKey;
-    private String itmsCycleName;
+    private final String itmsAddress;
+    private final String reportFolder;
+    private final String reportFormat;
+    private final String jiraProjectKey;
+    private final String jiraTicketKey;
+    private final String itmsCycleName;
 
     @DataBoundConstructor
     public CucumberPostBuild(final String itmsAddress, final String reportFolder,
@@ -145,5 +144,29 @@ public class CucumberPostBuild extends Notifier {
             return PLUGIN_NAME+ " response: " + response.getMessage();
         }
         return filePath.getName() + " is empty!";
+    }
+    
+    public String getItmsAddress() {
+        return itmsAddress;
+    }
+
+    public String getReportFolder() {
+        return reportFolder;
+    }
+
+    public String getReportFormat() {
+        return reportFormat;
+    }
+
+    public String getJiraTicketKey() {
+        return jiraTicketKey;
+    }
+
+    public String getItmsCycleName() {
+        return itmsCycleName;
+    }
+
+    public String getJiraProjectKey() {
+        return jiraProjectKey;
     }
 }
