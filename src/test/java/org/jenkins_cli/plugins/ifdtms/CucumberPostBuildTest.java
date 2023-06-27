@@ -8,6 +8,7 @@ import org.junit.Test;
 public class CucumberPostBuildTest {
 
 	@Ignore
+	@Test
 	public void test() {
 		fail("Not yet implemented");
 	}
