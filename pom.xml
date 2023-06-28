@@ -27,7 +27,7 @@
 	<licenses>
 		<license>
 			<name>MIT</name>
-			<url>http://opensource.org/licenses/MIT</url>
+			<url>https://opensource.org/licenses/MIT</url>
 		</license>
 	</licenses>
 	<scm>
@@ -41,14 +41,14 @@
 	<repositories>
 		<repository>
 			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
+			<url>https://repo.jenkins-ci.org/public/</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
+			<url>https://repo.jenkins-ci.org/public/</url>
 		</pluginRepository>
 	</pluginRepositories>
 	
