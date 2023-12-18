@@ -1,11 +1,11 @@
 package org.jenkins_cli.plugins.ifdtms.rest;
 
-import hidden.jth.org.apache.http.HttpEntity;
-import hidden.jth.org.apache.http.HttpResponse;
-import hidden.jth.org.apache.http.client.methods.HttpPost;
-import hidden.jth.org.apache.http.entity.StringEntity;
-import hidden.jth.org.apache.http.impl.client.CloseableHttpClient;
-import hidden.jth.org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import net.sf.json.JSONObject;
 
 import java.io.*;

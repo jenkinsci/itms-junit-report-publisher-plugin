@@ -1,6 +1,6 @@
 package org.jenkins_cli.plugins.ifdtms;
 
-import hidden.jth.org.apache.http.HttpStatus;
+import org.apache.http.HttpStatus;
 import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepDescriptor;
