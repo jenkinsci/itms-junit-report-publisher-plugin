@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>3.43</version>
+		<version>4.76</version>
 		<relativePath />
 	</parent>
 
@@ -18,11 +18,8 @@
 	<properties>
         <revision>1.29</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>2.138.4</jenkins.version>
-        <java.level>8</java.level>
+        <jenkins.version>2.361.4</jenkins.version>
         <no-test-jar>false</no-test-jar>
-        <workflow-cps.version>2.66</workflow-cps.version>
-        <workflow-support.version>3.2</workflow-support.version>
     </properties>
 	<licenses>
 		<license>
@@ -31,7 +28,7 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+		<connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 		<tag>${scmTag}</tag>
@@ -60,37 +57,42 @@
         </developer>
     </developers>
     <dependencies>
-    	<dependency>
-    		<groupId>org.jenkins-ci.main</groupId>
-            <artifactId>jenkins-test-harness-htmlunit</artifactId>
-            <version>2.31-2</version>
-            <scope>compile</scope>
+        <dependency>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>commons-lang3-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>apache-httpcomponents-client-4-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>structs</artifactId>
-            <version>1.17</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-step-api</artifactId>
-            <version>2.19</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-api</artifactId>
-            <version>2.34</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>script-security</artifactId>
-            <version>1.56</version>
-        </dependency>
-        <dependency>
-        	<groupId>junit</groupId>
-            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-2.361.x</artifactId>
+                <version>2102.v854b_fec19c92</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
     	<pluginManagement>
     		<plugins>
